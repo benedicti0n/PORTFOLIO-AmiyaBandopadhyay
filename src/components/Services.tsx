@@ -10,8 +10,8 @@ const ServiceCard = ({ icon, title, description }) => {
       <h3 className="text-xl font-bold text-gray-800 mb-3">{title}</h3>
       <p className="text-gray-600">{description}</p>
       <div className="mt-4">
-        <a 
-          href="#contact" 
+        <a
+          href="#contact"
           className="text-[#005DA6] font-medium hover:text-[#F7CB05] transition-all duration-300 inline-flex items-center"
         >
           Learn More
@@ -48,7 +48,7 @@ const Services = () => {
     },
     {
       icon: <Home />,
-      title: "Property Insurance",
+      title: "Property & Factory Insurance",
       description: "Safeguard your valuable assets and property with comprehensive coverage plans."
     },
     {
@@ -73,7 +73,7 @@ const Services = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <ServiceCard 
+            <ServiceCard
               key={index}
               icon={service.icon}
               title={service.title}
@@ -91,17 +91,17 @@ const Services = () => {
               <p className="text-gray-100 mb-6">
                 Schedule a free consultation to discuss your financial goals and get personalized recommendations.
               </p>
-              <a 
-                href="#contact" 
+              <a
+                href="#contact"
                 className="inline-block bg-[#F7CB05] text-[#005DA6] font-semibold py-3 px-8 rounded-md shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-[#e7bd00]"
               >
                 Get Free Consultation
               </a>
             </div>
             <div className="hidden md:block">
-              <img 
-                src="https://images.pexels.com/photos/7654586/pexels-photo-7654586.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
-                alt="Insurance Consultation" 
+              <img
+                src="https://images.pexels.com/photos/7654586/pexels-photo-7654586.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                alt="Insurance Consultation"
                 className="h-full w-full object-cover"
               />
             </div>

@@ -41,9 +41,9 @@ const Gallery = () => {
   ];
 
   const [filter, setFilter] = useState('All');
-  
-  const filteredItems = filter === 'All' 
-    ? galleryItems 
+
+  const filteredItems = filter === 'All'
+    ? galleryItems
     : galleryItems.filter(item => item.category === filter);
 
   return (
@@ -64,11 +64,10 @@ const Gallery = () => {
             {['All', 'Awards', 'Events', 'Training'].map((category) => (
               <button
                 key={category}
-                className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
-                  filter === category
-                    ? 'bg-[#005DA6] text-white'
-                    : 'text-gray-700 hover:bg-gray-100'
-                }`}
+                className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${filter === category
+                  ? 'bg-[#005DA6] text-white'
+                  : 'text-gray-700 hover:bg-gray-100'
+                  }`}
                 onClick={() => setFilter(category)}
               >
                 {category}
@@ -79,14 +78,14 @@ const Gallery = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredItems.map((item) => (
-            <div 
-              key={item.id} 
+            <div
+              key={item.id}
               className="group relative overflow-hidden rounded-lg shadow-lg bg-white hover:shadow-xl transition-all duration-300"
             >
               <div className="aspect-video overflow-hidden">
-                <img 
-                  src={item.image} 
-                  alt={item.title} 
+                <img
+                  src={item.image}
+                  alt={item.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
@@ -110,15 +109,15 @@ const Gallery = () => {
           <h3 className="text-2xl font-bold text-gray-800 mb-6">Recognition & Certifications</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
             <div className="bg-white p-6 rounded-lg shadow text-center">
-              <div className="text-3xl font-bold text-[#005DA6] mb-2">15+</div>
-              <p className="text-gray-600">Annual Awards</p>
+              <div className="text-3xl font-bold text-[#005DA6] mb-2">30+</div>
+              <p className="text-gray-600">Awards</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow text-center">
-              <div className="text-3xl font-bold text-[#005DA6] mb-2">MDRT</div>
+              <div className="text-3xl font-bold text-[#005DA6] mb-2">2x MDRT</div>
               <p className="text-gray-600">Qualified Member</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow text-center">
-              <div className="text-3xl font-bold text-[#005DA6] mb-2">7x</div>
+              <div className="text-3xl font-bold text-[#005DA6] mb-2">19x</div>
               <p className="text-gray-600">Chairman's Club</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow text-center">
