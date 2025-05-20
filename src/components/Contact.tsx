@@ -1,5 +1,6 @@
+'use client'
 import React, { useState } from 'react';
-import { Phone, Mail, MapPin, Clock } from 'lucide-react';
+import { Phone, Mail } from 'lucide-react';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -12,7 +13,7 @@ const Contact = () => {
 
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
       ...prevState,
@@ -20,7 +21,7 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Here you would normally send the form data to a server
     console.log(formData);
@@ -48,7 +49,7 @@ const Contact = () => {
           </h2>
           <div className="w-20 h-1 bg-[#F7CB05] mx-auto mb-6"></div>
           <p className="text-gray-600 max-w-3xl mx-auto">
-            Have questions about LIC policies or need personalized advice? I'm here to help you secure your financial future.
+            Have questions about LIC policies or need personalized advice? I&apos;m here to help you secure your financial future.
           </p>
         </div>
 
@@ -89,7 +90,7 @@ const Contact = () => {
               {formSubmitted ? (
                 <div className="bg-green-50 border border-green-200 text-green-700 rounded-lg p-4 mb-6">
                   <h4 className="font-semibold">Thank you for your message!</h4>
-                  <p>I'll get back to you within 24 hours.</p>
+                  <p>I&apos;ll get back to you within 24 hours.</p>
                 </div>
               ) : null}
 
@@ -193,7 +194,7 @@ const Contact = () => {
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d230.26479493225506!2d88.34734311354568!3d22.57024811610277!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a0277416449bdc5%3A0x783d4316148e8e71!2sLIC%20City%20Branch%20Office!5e0!3m2!1sen!2sin!4v1746805595452!5m2!1sen!2sin" width="100%"
               height="450"
               style={{ border: 0 }}
-              allowFullScreen=""
+              allowFullScreen={true}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className="rounded-lg"

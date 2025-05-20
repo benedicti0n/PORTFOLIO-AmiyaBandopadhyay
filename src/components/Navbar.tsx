@@ -1,5 +1,5 @@
+'use client'
 import React, { useState, useEffect } from 'react';
-import { Shield } from 'lucide-react';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -28,10 +28,12 @@ const Navbar = () => {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex justify-between items-center">
           <a href="#" className="flex items-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src='/lic-logo.png' alt='lic-logo' className="w-12" />
             <span className={`mx-2 text-xl font-semibold ${isScrolled ? "text-[#005DA6]" : "text-white"} `}>
               Amiya Bandopadhyay
             </span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src='/uiic.png' alt='uiic' className="w-12" />
           </a>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle, Award, TrendingUp } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 
 const About = () => {
   return (
@@ -11,13 +11,14 @@ const About = () => {
           </h2>
           <div className="w-20 h-1 bg-[#F7CB05] mx-auto mb-6"></div>
           <p className="text-gray-600 max-w-3xl mx-auto">
-            With 30 years of trusted experience in LIC and 15+ years in General Insurance, I've helped thousands of families secure their financial future.
+            With 30 years of trusted experience in LIC and 15+ years in General Insurance, I&apos;ve helped thousands of families secure their financial future.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="relative">
             <div className="bg-white p-4 rounded-lg shadow-xl relative z-10">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="https://images.pexels.com/photos/5588490/pexels-photo-5588490.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                 alt="25 Years of Experience"
@@ -43,7 +44,7 @@ const About = () => {
               Amiya Bandopadhyay: Your Trusted LIC & General Insurance Advisor
             </h3>
             <p className="text-gray-600">
-              Since 1994, I've been helping individuals and families across India and NRI clients navigate the complex world of life insurance. My mission is to provide personalized, honest advice that ensures financial security for you and your loved ones.
+              Since 1994, I&apos;ve been helping individuals and families across India and NRI clients navigate the complex world of life insurance. My mission is to provide personalized, honest advice that ensures financial security for you and your loved ones.
             </p>
             <p className="text-gray-600">
               As a 2 times MDRT qualified agent with multiple awards for performance excellence, I bring deep expertise and a client-first approach to every consultation.

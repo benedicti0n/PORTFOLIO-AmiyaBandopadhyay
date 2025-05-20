@@ -31,6 +31,7 @@ const Hero = () => {
 
           <div className="hidden md:block relative">
             <div className="bg-white p-6 rounded-lg shadow-xl relative z-10 transform rotate-2 hover:rotate-0 transition-all duration-500">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                 alt="Professional LIC Agent"

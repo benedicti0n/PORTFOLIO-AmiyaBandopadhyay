@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -40,13 +41,13 @@ const Testimonials = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const goToPrev = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
     );
   };
 
   const goToNext = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
     );
   };
@@ -60,27 +61,28 @@ const Testimonials = () => {
           </h2>
           <div className="w-20 h-1 bg-white mx-auto mb-6"></div>
           <p className="text-gray-100 max-w-3xl mx-auto">
-            Don't just take my word for it. Here's what my clients have to say about their experience.
+            Don&apos;t just take my word for it. Here&apos;s what my clients have to say about their experience.
           </p>
         </div>
 
         <div className="relative max-w-4xl mx-auto">
           <div className="flex overflow-hidden">
-            <div 
+            <div
               className="flex transition-transform duration-500 ease-in-out"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
               {testimonials.map((testimonial) => (
-                <div 
-                  key={testimonial.id} 
+                <div
+                  key={testimonial.id}
                   className="w-full flex-shrink-0 px-4"
                 >
                   <div className="bg-white rounded-lg shadow-xl overflow-hidden">
                     <div className="p-8 md:p-10">
                       <div className="flex items-center mb-6">
-                        <img 
-                          src={testimonial.image} 
-                          alt={testimonial.name} 
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={testimonial.image}
+                          alt={testimonial.name}
                           className="w-16 h-16 rounded-full object-cover mr-4"
                         />
                         <div>
@@ -88,36 +90,35 @@ const Testimonials = () => {
                           <p className="text-gray-600">{testimonial.position}</p>
                           <div className="flex items-center mt-1">
                             {[...Array(5)].map((_, i) => (
-                              <Star 
-                                key={i} 
-                                className={`h-4 w-4 ${
-                                  i < testimonial.rating 
-                                    ? 'text-[#F7CB05] fill-[#F7CB05]' 
-                                    : 'text-gray-300'
-                                }`} 
+                              <Star
+                                key={i}
+                                className={`h-4 w-4 ${i < testimonial.rating
+                                  ? 'text-[#F7CB05] fill-[#F7CB05]'
+                                  : 'text-gray-300'
+                                  }`}
                               />
                             ))}
                           </div>
                         </div>
                       </div>
-                      <p className="text-gray-700 italic">"{testimonial.text}"</p>
+                      <p className="text-gray-700 italic">&quot;{testimonial.text}&quot;</p>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-          
-          <button 
-            onClick={goToPrev} 
+
+          <button
+            onClick={goToPrev}
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 md:-translate-x-6 bg-white text-[#005DA6] rounded-full p-2 shadow-lg hover:bg-gray-100 transition-all z-10"
             aria-label="Previous testimonial"
           >
             <ChevronLeft className="h-6 w-6" />
           </button>
-          
-          <button 
-            onClick={goToNext} 
+
+          <button
+            onClick={goToNext}
             className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 md:translate-x-6 bg-white text-[#005DA6] rounded-full p-2 shadow-lg hover:bg-gray-100 transition-all z-10"
             aria-label="Next testimonial"
           >
@@ -129,9 +130,8 @@ const Testimonials = () => {
           {testimonials.map((_, index) => (
             <button
               key={index}
-              className={`w-3 h-3 rounded-full ${
-                index === currentIndex ? 'bg-white' : 'bg-white/30'
-              }`}
+              className={`w-3 h-3 rounded-full ${index === currentIndex ? 'bg-white' : 'bg-white/30'
+                }`}
               onClick={() => setCurrentIndex(index)}
               aria-label={`Go to testimonial ${index + 1}`}
             />

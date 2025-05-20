@@ -1,7 +1,7 @@
 import React from 'react';
 import { Heart, Umbrella, GraduationCap, Home, PiggyBank, Users } from 'lucide-react';
 
-const ServiceCard = ({ icon, title, description }) => {
+const ServiceCard = ({ icon, title, description }: { icon: React.ReactElement<{ className?: string }>, title: string, description: string }) => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border-b-4 border-[#005DA6] group">
       <div className="w-16 h-16 bg-[#005DA6]/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-[#005DA6] transition-all duration-300">
@@ -99,6 +99,7 @@ const Services = () => {
               </a>
             </div>
             <div className="hidden md:block">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="https://images.pexels.com/photos/7654586/pexels-photo-7654586.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                 alt="Insurance Consultation"

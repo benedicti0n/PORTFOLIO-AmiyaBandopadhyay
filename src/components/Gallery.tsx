@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react';
 
 const Gallery = () => {
@@ -83,6 +84,7 @@ const Gallery = () => {
               className="group relative overflow-hidden rounded-lg shadow-lg bg-white hover:shadow-xl transition-all duration-300"
             >
               <div className="aspect-video overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={item.image}
                   alt={item.title}
@@ -118,7 +120,7 @@ const Gallery = () => {
             </div>
             <div className="bg-white p-6 rounded-lg shadow text-center">
               <div className="text-3xl font-bold text-[#005DA6] mb-2">19x</div>
-              <p className="text-gray-600">Chairman's Club</p>
+              <p className="text-gray-600">Chairman&apos;s Club</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow text-center">
               <div className="text-3xl font-bold text-[#005DA6] mb-2">98%</div>
