@@ -1,51 +1,78 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { X } from 'lucide-react';
+
+interface GalleryItem {
+  _id: string;
+  title: string;
+  url: string;
+  category: string;
+  date: string;
+}
 
 const Gallery = () => {
-  const galleryItems = [
-    {
-      id: 1,
-      image: "https://images.pexels.com/photos/7841969/pexels-photo-7841969.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      title: "Regional Award Ceremony",
-      category: "Awards"
-    },
-    {
-      id: 2,
-      image: "https://images.pexels.com/photos/8867482/pexels-photo-8867482.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      title: "Client Seminar on Retirement Planning",
-      category: "Events"
-    },
-    {
-      id: 3,
-      image: "https://images.pexels.com/photos/6348118/pexels-photo-6348118.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      title: "Annual Chairman's Club Recognition",
-      category: "Awards"
-    },
-    {
-      id: 4,
-      image: "https://images.pexels.com/photos/7841968/pexels-photo-7841968.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      title: "Training New Agents",
-      category: "Training"
-    },
-    {
-      id: 5,
-      image: "https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      title: "International MDRT Conference",
-      category: "Events"
-    },
-    {
-      id: 6,
-      image: "https://images.pexels.com/photos/5673489/pexels-photo-5673489.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      title: "Best Agent Trophy 2024",
-      category: "Awards"
-    }
-  ];
-
+  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [filter, setFilter] = useState('All');
+  const [selectedImage, setSelectedImage] = useState<GalleryItem | null>(null);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const response = await fetch('/api/images');
+        const data = await response.json();
+
+        if (response.ok) {
+          setGalleryItems(data.images);
+        } else {
+          setError(data.message || 'Failed to fetch images');
+        }
+      } catch (err) {
+        console.error('Error fetching images:', err);
+        setError('Failed to fetch images');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchImages();
+  }, []);
+
+  if (loading) {
+    return (
+      <section id="gallery" className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center">Loading gallery...</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="gallery" className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center text-red-500">{error}</div>
+        </div>
+      </section>
+    );
+  }
 
   const filteredItems = filter === 'All'
     ? galleryItems
     : galleryItems.filter(item => item.category === filter);
+
+  // If no images are found, show a message
+  if (galleryItems.length === 0) {
+    return (
+      <section id="gallery" className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center">No images found in the gallery.</div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="gallery" className="py-20 bg-gray-50">
@@ -80,15 +107,15 @@ const Gallery = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredItems.map((item) => (
             <div
-              key={item.id}
-              className="group relative overflow-hidden rounded-lg shadow-lg bg-white hover:shadow-xl transition-all duration-300"
+              key={item._id}
+              className="relative overflow-hidden rounded-lg shadow-lg bg-white hover:shadow-xl transition-all duration-300 cursor-pointer"
+              onClick={() => setSelectedImage(item)}
             >
               <div className="aspect-video overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={item.image}
+                  src={`/api/images/${item._id}`}
                   alt={item.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full h-full object-cover"
                 />
               </div>
               <div className="p-4">
@@ -96,12 +123,13 @@ const Gallery = () => {
                   {item.category}
                 </span>
                 <h3 className="text-lg font-bold text-gray-800">{item.title}</h3>
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                <div className="p-6 w-full">
-                  <h3 className="text-lg font-bold text-white mb-1">{item.title}</h3>
-                  <p className="text-sm text-gray-200">{item.category}</p>
-                </div>
+                <p className="text-sm text-gray-600 mt-1">
+                  {new Date(item.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </p>
               </div>
             </div>
           ))}
@@ -129,6 +157,38 @@ const Gallery = () => {
           </div>
         </div>
       </div>
+
+      {/* Image Modal */}
+      {selectedImage && (
+        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4" onClick={() => setSelectedImage(null)}>
+          <div className="relative max-w-6xl w-full max-h-[90vh]" onClick={e => e.stopPropagation()}>
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute -top-10 right-0 text-white hover:text-gray-300 transition-colors"
+              aria-label="Close modal"
+            >
+              <X size={32} />
+            </button>
+            <div className="bg-white rounded-lg overflow-hidden">
+              <img
+                src={`/api/images/${selectedImage._id}`}
+                alt={selectedImage.title}
+                className="w-full h-auto max-h-[80vh] object-contain"
+              />
+              <div className="p-4 bg-white">
+                <h3 className="text-xl font-bold text-gray-800">{selectedImage.title}</h3>
+                <p className="text-sm text-gray-600 mt-1">
+                  {new Date(selectedImage.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
