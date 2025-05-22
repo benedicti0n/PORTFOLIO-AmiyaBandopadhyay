@@ -12,6 +12,8 @@ const Contact = () => {
   });
 
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -21,15 +23,26 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Here you would normally send the form data to a server
-    console.log(formData);
-    setFormSubmitted(true);
+    setIsSubmitting(true);
+    setSubmitError('');
 
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setFormSubmitted(false);
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Failed to send message');
+      }
+
+      setFormSubmitted(true);
       setFormData({
         name: '',
         email: '',
@@ -37,16 +50,38 @@ const Contact = () => {
         subject: '',
         message: ''
       });
-    }, 5000);
+
+      // Reset success message after 5 seconds
+      const timer = setTimeout(() => {
+        setFormSubmitted(false);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to send message. Please try again.';
+      setSubmitError(errorMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <section id="contact" className="py-20 bg-white">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-            Contact <span className="text-[#005DA6]">Me</span>
-          </h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">Get In Touch</h2>
+          <p className="text-gray-600 mb-8">Fill out the form below to send me a message.</p>
+          {formSubmitted && (
+            <div className="mb-6 p-4 bg-green-100 text-green-700 rounded-md">
+              Thank you for your message! I&apos;ll get back to you soon.
+            </div>
+          )}
+          {submitError && (
+            <div className="mb-6 p-4 bg-red-100 text-red-700 rounded-md">
+              {submitError}
+            </div>
+          )}
           <div className="w-20 h-1 bg-[#F7CB05] mx-auto mb-6"></div>
           <p className="text-gray-600 max-w-3xl mx-auto">
             Have questions about LIC policies or need personalized advice? I&apos;m here to help you secure your financial future.
@@ -86,13 +121,6 @@ const Contact = () => {
           <div>
             <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-100">
               <h3 className="text-2xl font-bold text-gray-800 mb-6">Send Me a Message</h3>
-
-              {formSubmitted ? (
-                <div className="bg-green-50 border border-green-200 text-green-700 rounded-lg p-4 mb-6">
-                  <h4 className="font-semibold">Thank you for your message!</h4>
-                  <p>I&apos;ll get back to you within 24 hours.</p>
-                </div>
-              ) : null}
 
               <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -180,9 +208,10 @@ const Contact = () => {
 
                 <button
                   type="submit"
-                  className="w-full bg-[#005DA6] text-white font-semibold py-3 px-6 rounded-md shadow hover:bg-[#004a85] transition-all duration-300"
+                  disabled={isSubmitting}
+                  className={`w-full bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 transition-colors ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                 >
-                  Send Message
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
               </form>
             </div>

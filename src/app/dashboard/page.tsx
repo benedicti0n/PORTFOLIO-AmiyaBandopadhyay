@@ -16,6 +16,8 @@ interface ContactForm {
     _id: string;
     name: string;
     email: string;
+    phone: string;
+    subject: string;
     message: string;
     createdAt: string;
 }
@@ -24,7 +26,8 @@ type TabType = 'upload' | 'gallery' | 'contact';
 
 export default function Dashboard() {
     // Tab state
-    const [activeTab, setActiveTab] = useState<TabType>('upload');
+    const [activeTab, setActiveTab] = useState<TabType>('gallery');
+    const [isLoadingContacts, setIsLoadingContacts] = useState(false);
 
     // Upload form state
     const [title, setTitle] = useState('');
@@ -66,7 +69,7 @@ export default function Dashboard() {
             });
             const data = await response.json();
             if (response.ok) {
-                setGalleryItems(data.images);
+                setGalleryItems(data.images || []);
             } else {
                 toast.error(data.message || 'Failed to fetch gallery items');
             }
@@ -80,7 +83,7 @@ export default function Dashboard() {
 
     const fetchContactForms = async () => {
         try {
-            setLoading(true);
+            setIsLoadingContacts(true);
             const token = localStorage.getItem('auth-token');
             const response = await fetch('/api/contact', {
                 headers: {
@@ -89,7 +92,7 @@ export default function Dashboard() {
             });
             const data = await response.json();
             if (response.ok) {
-                setContactForms(data.forms);
+                setContactForms(Array.isArray(data) ? data : []);
             } else {
                 toast.error(data.message || 'Failed to fetch contact forms');
             }
@@ -97,7 +100,7 @@ export default function Dashboard() {
             console.error('Error fetching contact forms:', err);
             toast.error('Failed to fetch contact forms');
         } finally {
-            setLoading(false);
+            setIsLoadingContacts(false);
         }
     };
 
@@ -236,6 +239,28 @@ export default function Dashboard() {
         } catch (err) {
             console.error('Delete error:', err);
             toast.error('An error occurred while deleting the contact form submission');
+        }
+    };
+
+    const handleDeleteContact = async (id: string) => {
+        if (window.confirm('Are you sure you want to delete this contact submission?')) {
+            try {
+                const response = await fetch(`/api/contact/${id}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.ok) {
+                    // Refresh the contact submissions list
+                    const updatedForms = contactForms.filter(
+                        (form) => form._id !== id
+                    );
+                    setContactForms(updatedForms);
+                } else {
+                    console.error('Failed to delete contact submission');
+                }
+            } catch (error) {
+                console.error('Error deleting contact submission:', error);
+            }
         }
     };
 
@@ -397,7 +422,7 @@ export default function Dashboard() {
                                                             type="date"
                                                             value={editForm.date}
                                                             onChange={(e) => setEditForm({ ...editForm, date: e.target.value })}
-                                                            className="border rounded px-2 py-1"
+                                                            className="border rounded px-2 py-1 w-full"
                                                         />
                                                     ) : (
                                                         new Date(item.date).toLocaleDateString()
@@ -450,41 +475,59 @@ export default function Dashboard() {
                     <div>
                         <h2 className="text-xl font-semibold text-gray-800 mb-6">Contact Form Submissions</h2>
 
-                        {loading ? (
-                            <div className="text-center py-8">Loading contact forms...</div>
+                        {isLoadingContacts ? (
+                            <div className="text-center py-8">Loading contact submissions...</div>
                         ) : contactForms.length === 0 ? (
-                            <div className="text-center py-8 text-gray-500">No contact form submissions found.</div>
+                            <div className="text-center py-8 text-gray-500">No contact submissions found.</div>
                         ) : (
-                            <div className="space-y-6">
-                                {contactForms.map((form) => (
-                                    <div key={form._id} className="bg-white shadow overflow-hidden sm:rounded-lg">
-                                        <div className="px-4 py-5 sm:px-6 flex justify-between items-center bg-gray-50">
-                                            <div>
-                                                <h3 className="text-lg font-medium text-gray-900">{form.name}</h3>
-                                                <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                                                    {form.email} • {formatDate(form.createdAt)}
-                                                </p>
-                                            </div>
-                                            <button
-                                                onClick={() => handleDeleteContactForm(form._id)}
-                                                className="text-gray-400 hover:text-red-500"
-                                                title="Delete submission"
-                                            >
-                                                <Trash2 className="h-5 w-5" />
-                                            </button>
-                                        </div>
-                                        <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
-                                            <dl className="sm:divide-y sm:divide-gray-200">
-                                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                                    <dt className="text-sm font-medium text-gray-500">Message</dt>
-                                                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 whitespace-pre-line">
-                                                        {form.message}
-                                                    </dd>
-                                                </div>
-                                            </dl>
-                                        </div>
-                                    </div>
-                                ))}
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full divide-y divide-gray-200">
+                                    <thead className="bg-gray-50">
+                                        <tr>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Message</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="bg-white divide-y divide-gray-200">
+                                        {contactForms.map((submission) => (
+                                            <tr key={submission._id}>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                    {submission.name}
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    <a href={`mailto:${submission.email}`} className="text-blue-600 hover:text-blue-900">
+                                                        {submission.email}
+                                                    </a>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    {submission.phone}
+                                                </td>
+                                                <td className="px-6 py-4 text-sm text-gray-900">
+                                                    {submission.subject}
+                                                </td>
+                                                <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
+                                                    {submission.message}
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    {new Date(submission.createdAt).toLocaleString()}
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                    <button
+                                                        onClick={() => handleDeleteContact(submission._id)}
+                                                        className="text-red-600 hover:text-red-900"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                             </div>
                         )}
                     </div>
@@ -501,20 +544,7 @@ export default function Dashboard() {
                 <div className="bg-white rounded-lg shadow">
                     {/* Tabs */}
                     <div className="border-b border-gray-200">
-                        <nav className="flex -mb-px">
-                            <button
-                                onClick={() => setActiveTab('upload')}
-                                className={`py-4 px-6 text-center border-b-2 font-medium text-sm ${activeTab === 'upload'
-                                    ? 'border-indigo-500 text-indigo-600'
-                                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                                    }`}
-                            >
-                                <div className="flex items-center justify-center">
-                                    <ImageIcon className="h-5 w-5 mr-2" />
-                                    Upload Image
-                                </div>
-                            </button>
-
+                        <nav className="flex space-x-4" aria-label="Tabs">
                             <button
                                 onClick={() => setActiveTab('gallery')}
                                 className={`py-4 px-6 text-center border-b-2 font-medium text-sm ${activeTab === 'gallery'
@@ -537,7 +567,7 @@ export default function Dashboard() {
                             >
                                 <div className="flex items-center justify-center">
                                     <Mail className="h-5 w-5 mr-2" />
-                                    Contact Forms ({contactForms.length})
+                                    Contact Forms ({contactForms?.length || 0})
                                 </div>
                             </button>
                         </nav>
