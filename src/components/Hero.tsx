@@ -5,7 +5,6 @@ const Hero = () => {
   return (
     <div className="relative min-h-screen flex items-center bg-gradient-to-r from-[#003b6f] to-[#005DA6] text-white">
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute bottom-0 left-0 right-0 h-20 bg-gray-50 transform skew-y-2 -translate-y-5"></div>
         <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-[#F7CB05]/20 blur-xl"></div>
         <div className="absolute top-40 left-10 w-40 h-40 rounded-full bg-[#F7CB05]/10 blur-xl"></div>
       </div>
