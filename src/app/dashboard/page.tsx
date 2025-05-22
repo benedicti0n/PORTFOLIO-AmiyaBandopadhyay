@@ -216,32 +216,6 @@ export default function Dashboard() {
         }
     };
 
-    const handleDeleteContactForm = async (id: string) => {
-        if (!window.confirm('Are you sure you want to delete this contact form submission?')) return;
-
-        try {
-            const token = localStorage.getItem('auth-token');
-            const response = await fetch(`/api/contact/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                toast.success('Contact form submission deleted successfully!');
-                setContactForms(contactForms.filter(form => form._id !== id));
-            } else {
-                toast.error(data.message || 'Failed to delete contact form submission');
-            }
-        } catch (err) {
-            console.error('Delete error:', err);
-            toast.error('An error occurred while deleting the contact form submission');
-        }
-    };
-
     const handleDeleteContact = async (id: string) => {
         if (window.confirm('Are you sure you want to delete this contact submission?')) {
             try {
@@ -264,16 +238,6 @@ export default function Dashboard() {
         }
     };
 
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-    };
-
     // Tab navigation
     const renderTabContent = () => {
         switch (activeTab) {
@@ -291,7 +255,7 @@ export default function Dashboard() {
                                     required
                                     value={title}
                                     onChange={(e) => setTitle(e.target.value)}
-                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-black"
                                 />
                             </div>
 
@@ -302,7 +266,7 @@ export default function Dashboard() {
                                 <select
                                     value={category}
                                     onChange={(e) => setCategory(e.target.value)}
-                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-black"
                                 >
                                     <option value="Awards">Awards</option>
                                     <option value="Events">Events</option>
@@ -319,7 +283,7 @@ export default function Dashboard() {
                                     required
                                     value={date}
                                     onChange={(e) => setDate(e.target.value)}
-                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-black"
                                 />
                             </div>
 
@@ -332,7 +296,7 @@ export default function Dashboard() {
                                     accept="image/*"
                                     required
                                     onChange={(e) => setFile(e.target.files?.[0] || null)}
-                                    className="mt-1 block w-full text-gray-700"
+                                    className="mt-1 block w-full text-gray-700 text-black"
                                 />
                             </div>
 
@@ -382,6 +346,7 @@ export default function Dashboard() {
                                             <tr key={item._id}>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <div className="h-20 w-20 rounded-md overflow-hidden bg-gray-100 flex items-center justify-center">
+                                                        {/* eslint-disable-next-line @next/next/no-img-element */}
                                                         <img
                                                             src={`/api/images/${item._id}`}
                                                             alt={item.title}

@@ -8,6 +8,19 @@ if (!MONGODB_URI) {
 
 console.log('Attempting to connect to MongoDB URI:', MONGODB_URI);
 
+// Define the type for our mongoose cache
+type MongooseCache = {
+    conn: typeof mongoose | null;
+    promise: Promise<typeof mongoose> | null;
+};
+
+// Add the mongoose cache to the global object
+declare global {
+    // eslint-disable-next-line no-var
+    var mongoose: MongooseCache;
+}
+
+// Initialize the mongoose cache on the global object
 let cached = global.mongoose;
 
 if (!cached) {

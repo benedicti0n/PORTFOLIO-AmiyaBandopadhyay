@@ -112,6 +112,7 @@ const Gallery = () => {
               onClick={() => setSelectedImage(item)}
             >
               <div className="aspect-video overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={`/api/images/${item._id}`}
                   alt={item.title}
@@ -182,6 +183,7 @@ const Gallery = () => {
               <X size={32} />
             </button>
             <div className="bg-white rounded-lg overflow-hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={`/api/images/${selectedImage._id}`}
                 alt={selectedImage.title}
