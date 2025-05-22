@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
+import { X, ShieldCheck, Clock, Award, Phone } from 'lucide-react';
 
 interface GalleryItem {
   _id: string;
@@ -135,25 +135,37 @@ const Gallery = () => {
           ))}
         </div>
 
-        <div className="mt-16 text-center">
-          <h3 className="text-2xl font-bold text-gray-800 mb-6">Recognition & Certifications</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-            <div className="bg-white p-6 rounded-lg shadow text-center">
-              <div className="text-3xl font-bold text-[#005DA6] mb-2">30+</div>
-              <p className="text-gray-600">Awards</p>
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+          <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-all">
+            <div className="flex justify-center mb-4">
+              <ShieldCheck className="h-10 w-10 text-[#005DA6]" />
             </div>
-            <div className="bg-white p-6 rounded-lg shadow text-center">
-              <div className="text-3xl font-bold text-[#005DA6] mb-2">2x MDRT</div>
-              <p className="text-gray-600">Qualified Member</p>
+            <h3 className="text-xl font-semibold mb-2 text-black">Protection</h3>
+            <p className="text-gray-600">Securing families with comprehensive coverage</p>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-all">
+            <div className="flex justify-center mb-4">
+              <Clock className="h-10 w-10 text-[#005DA6]" />
             </div>
-            <div className="bg-white p-6 rounded-lg shadow text-center">
-              <div className="text-3xl font-bold text-[#005DA6] mb-2">19x</div>
-              <p className="text-gray-600">Chairman&apos;s Club</p>
+            <h3 className="text-xl font-semibold mb-2 text-black">30 Years</h3>
+            <p className="text-gray-600">Decades of trusted experience in the industry</p>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-all">
+            <div className="flex justify-center mb-4">
+              <Award className="h-10 w-10 text-[#005DA6]" />
             </div>
-            <div className="bg-white p-6 rounded-lg shadow text-center">
-              <div className="text-3xl font-bold text-[#005DA6] mb-2">98%</div>
-              <p className="text-gray-600">Client Retention</p>
+            <h3 className="text-xl font-semibold mb-2 text-black">Top Agent</h3>
+            <p className="text-gray-600">Multiple-time award winner for excellence</p>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-all">
+            <div className="flex justify-center mb-4">
+              <Phone className="h-10 w-10 text-[#005DA6]" />
             </div>
+            <h3 className="text-xl font-semibold mb-2 text-black">24/7 Support</h3>
+            <p className="text-gray-600">Always available to assist clients</p>
           </div>
         </div>
       </div>

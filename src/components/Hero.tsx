@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, Clock, Award, Phone } from 'lucide-react';
+
 
 const Hero = () => {
   return (
@@ -42,37 +42,25 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/20 hover:bg-white/20 transition-all">
-            <div className="flex justify-center mb-4">
-              <ShieldCheck className="h-10 w-10 text-[#F7CB05]" />
+        <div className="mt-20 text-center">
+          <h3 className="text-2xl font-bold text-white mb-6">Recognition & Certifications</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+            <div className="bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/20 text-center">
+              <div className="text-3xl font-bold text-[#F7CB05] mb-2">30+</div>
+              <p className="text-white">Awards</p>
             </div>
-            <h3 className="text-xl font-semibold mb-2">Protection</h3>
-            <p className="text-gray-100">Securing families with comprehensive coverage</p>
-          </div>
-
-          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/20 hover:bg-white/20 transition-all">
-            <div className="flex justify-center mb-4">
-              <Clock className="h-10 w-10 text-[#F7CB05]" />
+            <div className="bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/20 text-center">
+              <div className="text-3xl font-bold text-[#F7CB05] mb-2">2x MDRT</div>
+              <p className="text-white">Qualified Member</p>
             </div>
-            <h3 className="text-xl font-semibold mb-2">30 Years</h3>
-            <p className="text-gray-100">Decades of trusted experience in the industry</p>
-          </div>
-
-          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/20 hover:bg-white/20 transition-all">
-            <div className="flex justify-center mb-4">
-              <Award className="h-10 w-10 text-[#F7CB05]" />
+            <div className="bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/20 text-center">
+              <div className="text-3xl font-bold text-[#F7CB05] mb-2">19x</div>
+              <p className="text-white">Chairman&apos;s Club</p>
             </div>
-            <h3 className="text-xl font-semibold mb-2">Top Agent</h3>
-            <p className="text-gray-100">Multiple-time award winner for excellence</p>
-          </div>
-
-          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/20 hover:bg-white/20 transition-all">
-            <div className="flex justify-center mb-4">
-              <Phone className="h-10 w-10 text-[#F7CB05]" />
+            <div className="bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/20 text-center">
+              <div className="text-3xl font-bold text-[#F7CB05] mb-2">98%</div>
+              <p className="text-white">Client Retention</p>
             </div>
-            <h3 className="text-xl font-semibold mb-2">24/7 Support</h3>
-            <p className="text-gray-100">Always available to assist clients</p>
           </div>
         </div>
       </div>
